@@ -3,6 +3,7 @@
     <div class="row register-page">
       <form class="col s12" id="reg-form">
         <div class="row">
+          <div class="error-message">{{ registerError }}</div>
           <div class="input-field col s6">
             <input
               id="last_name"
@@ -98,12 +99,15 @@ export default class RegisterAdmin extends Vue {
   private passwordError = "";
   // エラー有無のフラグ
   private hasError = false;
+  // 登録失敗時のエラーメッセージ
+  private registerError = "";
 
   /**
    * 管理者情報を登録する.
    *
    * @remarks
    * 本メソッドは非同期でWebAPIを呼び出し管理者登録をするためasync/await axiosを利用しています。これらを利用する場合は明示的に戻り値にPromiseオブジェクト型を指定する必要があります。
+   *
    *
    * @returns Promiseオブジェクト
    */
@@ -113,6 +117,8 @@ export default class RegisterAdmin extends Vue {
     this.mailAddressError = "";
     this.passwordError = "";
     this.hasError = false;
+    this.registerError = "";
+
     if (this.lastName === "") {
       this.lastNameError = "姓を入力してください";
       this.hasError = true;
@@ -141,8 +147,12 @@ export default class RegisterAdmin extends Vue {
       password: this.password,
     });
     console.dir("response:" + JSON.stringify(response));
-
-    this.$router.push("/loginAdmin");
+    if (response.data.status === "success") {
+      this.$router.push("/loginAdmin");
+    } else {
+      this.registerError = "登録できませんでした";
+      this.mailAddressError = "このメールアドレスは既に登録されています";
+    }
   }
 }
 </script>
