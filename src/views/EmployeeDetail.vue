@@ -17,7 +17,7 @@
             <tr>
               <th nowrap>従業員名</th>
               <td>
-                <span>currentEmployee.name"></span>
+                <span>{{ currentEmployee.name }}</span>
               </td>
             </tr>
             <tr>
