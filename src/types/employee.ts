@@ -35,11 +35,13 @@ export class Employee {
   /**
    * 入社日をフォーマットして返す.
    *
+   * @returns フォーマットされた入社日
    */
   get formatDate() {
-    const year = this.hireDate.getFullYear();
-    const month = this.hireDate.getMinutes() + 1;
-    const day = this.hireDate.getDate();
+    const date = new Date(this.hireDate);
+    const year = date.getFullYear();
+    const month = date.getMinutes() + 1;
+    const day = date.getDate();
     return year + "年" + month + "月" + day + "日";
   }
 
