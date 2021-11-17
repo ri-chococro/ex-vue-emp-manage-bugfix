@@ -11,6 +11,7 @@
               v-model="lastName"
               required
             />
+            <div class="error-message">{{ firstNameError }}</div>
             <label for="last_name">姓</label>
           </div>
           <div class="input-field col s6">
@@ -84,6 +85,14 @@ export default class RegisterAdmin extends Vue {
   private mailAddress = "";
   // パスワード
   private password = "";
+  // 姓エラーメッセージ
+  private firstNameError = "";
+  // 名エラーメッセージ
+  private lastNameError = "";
+  // メールアドレスエラーメッセージ
+  private mailAddressError = "";
+  // パスワードエラーメッセージ
+  private passwordMessage = "";
 
   /**
    * 管理者情報を登録する.
