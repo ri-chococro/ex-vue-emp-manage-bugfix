@@ -54,6 +54,20 @@
           </div>
         </div>
         <div class="row">
+          <div class="input-field col s12">
+            <input
+              id="confirmation-password"
+              type="password"
+              class="validate"
+              minlength="8"
+              v-model="confirmationPassword"
+              required
+            />
+            <div class="error-message">{{ confirmationPasswordError }}</div>
+            <label for="confirmation-password">確認用パスワード</label>
+          </div>
+        </div>
+        <div class="row">
           <div class="input-field col s6">
             <button
               class="btn btn-large btn-register waves-effect waves-light"
@@ -88,6 +102,8 @@ export default class RegisterAdmin extends Vue {
   private mailAddress = "";
   // パスワード
   private password = "";
+  // 確認用パスワード
+  private confirmationPassword = "";
   // 姓エラーメッセージ
   private lastNameError = "";
   // 名エラーメッセージ
@@ -96,6 +112,8 @@ export default class RegisterAdmin extends Vue {
   private mailAddressError = "";
   // パスワードエラーメッセージ
   private passwordError = "";
+  // 確認用パスワードエラーメッセージ
+  private confirmationPasswordError = "";
   // エラー有無のフラグ
   private hasError = false;
 
