@@ -11,7 +11,7 @@
               v-model="lastName"
               required
             />
-            <div class="error-message">{{ firstNameError }}</div>
+            <div class="error-message">{{ lastNameError }}</div>
             <label for="last_name">姓</label>
           </div>
           <div class="input-field col s6">
@@ -22,6 +22,7 @@
               v-model="firstName"
               required
             />
+            <div class="error-message">{{ firstNameError }}</div>
             <label for="first_name">名</label>
           </div>
         </div>
@@ -34,6 +35,7 @@
               v-model="mailAddress"
               required
             />
+            <div class="error-message">{{ mailAddressError }}</div>
             <label for="email">メールアドレス</label>
           </div>
         </div>
@@ -47,6 +49,7 @@
               v-model="password"
               required
             />
+            <div class="error-message">{{ passwordError }}</div>
             <label for="password">パスワード</label>
           </div>
         </div>
@@ -86,22 +89,51 @@ export default class RegisterAdmin extends Vue {
   // パスワード
   private password = "";
   // 姓エラーメッセージ
-  private firstNameError = "";
-  // 名エラーメッセージ
   private lastNameError = "";
+  // 名エラーメッセージ
+  private firstNameError = "";
   // メールアドレスエラーメッセージ
   private mailAddressError = "";
   // パスワードエラーメッセージ
-  private passwordMessage = "";
+  private passwordError = "";
+  // エラー有無のフラグ
+  private hasError = false;
 
   /**
    * 管理者情報を登録する.
    *
    * @remarks
    * 本メソッドは非同期でWebAPIを呼び出し管理者登録をするためasync/await axiosを利用しています。これらを利用する場合は明示的に戻り値にPromiseオブジェクト型を指定する必要があります。
+   *
    * @returns Promiseオブジェクト
    */
   async registerAdmin(): Promise<void> {
+    this.lastNameError = "";
+    this.firstNameError = "";
+    this.mailAddressError = "";
+    this.passwordError = "";
+    this.hasError = false;
+    if (this.lastName === "") {
+      this.lastNameError = "姓を入力してください";
+      this.hasError = true;
+    }
+    if (this.firstName === "") {
+      this.firstNameError = "名を入力してください";
+      this.hasError = true;
+    }
+    if (this.mailAddress === "") {
+      this.mailAddressError = "メールアドレスを入力してください";
+      this.hasError = true;
+    }
+    if (this.password === "") {
+      this.passwordError = "パスワードを入力してください";
+      this.hasError = true;
+    }
+
+    if (this.hasError) {
+      return;
+    }
+
     // 管理者登録処理
     const response = await axios.post(`${config.EMP_WEBAPI_URL}/insert`, {
       name: this.lastName + " " + this.firstName,
@@ -118,5 +150,8 @@ export default class RegisterAdmin extends Vue {
 <style scoped>
 .register-page {
   width: 600px;
+}
+.error-message {
+  color: red;
 }
 </style>
