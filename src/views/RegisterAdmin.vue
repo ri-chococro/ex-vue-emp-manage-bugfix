@@ -55,6 +55,20 @@
           </div>
         </div>
         <div class="row">
+          <div class="input-field col s12">
+            <input
+              id="confirmation-password"
+              type="password"
+              class="validate"
+              minlength="8"
+              v-model="confirmationPassword"
+              required
+            />
+            <div class="error-message">{{ confirmationPasswordError }}</div>
+            <label for="confirmation-password">確認用パスワード</label>
+          </div>
+        </div>
+        <div class="row">
           <div class="input-field col s6">
             <button
               class="btn btn-large btn-register waves-effect waves-light"
@@ -89,6 +103,8 @@ export default class RegisterAdmin extends Vue {
   private mailAddress = "";
   // パスワード
   private password = "";
+  // 確認用パスワード
+  private confirmationPassword = "";
   // 姓エラーメッセージ
   private lastNameError = "";
   // 名エラーメッセージ
@@ -97,6 +113,8 @@ export default class RegisterAdmin extends Vue {
   private mailAddressError = "";
   // パスワードエラーメッセージ
   private passwordError = "";
+  // 確認用パスワードエラーメッセージ
+  private confirmationPasswordError = "";
   // エラー有無のフラグ
   private hasError = false;
   // 登録失敗時のエラーメッセージ
@@ -116,6 +134,7 @@ export default class RegisterAdmin extends Vue {
     this.firstNameError = "";
     this.mailAddressError = "";
     this.passwordError = "";
+    this.confirmationPasswordError = "";
     this.hasError = false;
     this.registerError = "";
 
@@ -133,6 +152,13 @@ export default class RegisterAdmin extends Vue {
     }
     if (this.password === "") {
       this.passwordError = "パスワードを入力してください";
+      this.hasError = true;
+    }
+    if (this.confirmationPassword === "") {
+      this.confirmationPasswordError = "確認用パスワードを入力してください";
+      this.hasError = true;
+    } else if (this.confirmationPassword !== this.password) {
+      this.confirmationPasswordError = "パスワードが一致しません";
       this.hasError = true;
     }
 
