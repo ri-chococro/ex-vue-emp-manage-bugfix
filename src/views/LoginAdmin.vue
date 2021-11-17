@@ -5,8 +5,10 @@
         <form class="login-form">
           <div class="row"></div>
           <div class="row">
+            <div class="error-message">{{ errorMessage }}</div>
             <div class="input-field col s12">
               <i class="material-icons prefix">mail_outline</i>
+
               <input
                 class="validate"
                 id="mailAddress"
@@ -65,6 +67,8 @@ export default class LoginAdmin extends Vue {
   private mailAddress = "";
   // パスワード
   private password = "";
+  // エラーメッセージ
+  private errorMessage = "";
 
   /**
    * ログインする.
@@ -79,9 +83,13 @@ export default class LoginAdmin extends Vue {
       password: this.password,
     });
     console.dir("response:" + JSON.stringify(response));
-
-    // 従業員一覧に遷移する
-    this.$router.push("/employeeList");
+    // エラーチェックを行う
+    if (response.data.status === "error") {
+      this.errorMessage = "ログインに失敗しました";
+    } else {
+      // 従業員一覧に遷移する
+      this.$router.push("/employeeList");
+    }
   }
 }
 </script>
@@ -89,5 +97,8 @@ export default class LoginAdmin extends Vue {
 <style scoped>
 .login-page {
   width: 600px;
+}
+.error-message {
+  color: red;
 }
 </style>
