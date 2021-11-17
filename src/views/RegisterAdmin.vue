@@ -130,6 +130,7 @@ export default class RegisterAdmin extends Vue {
     this.firstNameError = "";
     this.mailAddressError = "";
     this.passwordError = "";
+    this.confirmationPasswordError = "";
     this.hasError = false;
     if (this.lastName === "") {
       this.lastNameError = "姓を入力してください";
@@ -145,6 +146,13 @@ export default class RegisterAdmin extends Vue {
     }
     if (this.password === "") {
       this.passwordError = "パスワードを入力してください";
+      this.hasError = true;
+    }
+    if (this.confirmationPassword === "") {
+      this.confirmationPasswordError = "確認用パスワードを入力してください";
+      this.hasError = true;
+    } else if (this.confirmationPassword !== this.password) {
+      this.confirmationPasswordError = "パスワードが一致しません";
       this.hasError = true;
     }
 
