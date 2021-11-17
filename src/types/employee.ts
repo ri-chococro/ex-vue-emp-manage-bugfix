@@ -32,6 +32,17 @@ export class Employee {
     private _dependentsCount: number
   ) {}
 
+  /**
+   * 入社日をフォーマットして返す.
+   *
+   */
+  get formatDate() {
+    const year = this.hireDate.getFullYear();
+    const month = this.hireDate.getMinutes() + 1;
+    const day = this.hireDate.getDate();
+    return year + "年" + month + "月" + day + "日";
+  }
+
   public get id(): number {
     return this._id;
   }
