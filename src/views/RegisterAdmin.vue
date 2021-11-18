@@ -145,6 +145,10 @@ export default class RegisterAdmin extends Vue {
   private lastNameError = "";
   // 名エラーメッセージ
   private firstNameError = "";
+  // 郵便番号エラーメッセージ
+  private zipCodeError = "";
+  // 住所エラーメッセージ
+  private addressError = "";
   // メールアドレスエラーメッセージ
   private mailAddressError = "";
   // パスワードエラーメッセージ
@@ -168,18 +172,24 @@ export default class RegisterAdmin extends Vue {
   async registerAdmin(): Promise<void> {
     this.lastNameError = "";
     this.firstNameError = "";
+    this.zipCodeError = "";
+    this.addressError = "";
     this.mailAddressError = "";
     this.passwordError = "";
     this.confirmationPasswordError = "";
-    this.hasError = false;
     this.registerError = "";
+    this.hasError = false;
 
-    if (this.lastName === "") {
-      this.lastNameError = "姓を入力してください";
+    if (this.lastName === "" || this.firstName === "") {
+      this.lastNameError = "姓または名を入力してください";
       this.hasError = true;
     }
-    if (this.firstName === "") {
-      this.firstNameError = "名を入力してください";
+    if (this.zipCode === "") {
+      this.zipCodeError = "郵便番号を入力してください";
+      this.hasError = true;
+    }
+    if (this.address === "") {
+      this.addressError = "住所を入力してください";
       this.hasError = true;
     }
     if (this.mailAddress === "") {
