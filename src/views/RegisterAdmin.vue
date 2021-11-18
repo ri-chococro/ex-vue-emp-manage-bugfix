@@ -28,6 +28,30 @@
           </div>
         </div>
         <div class="row">
+          <div class="input-field col s6">
+            <input
+              id="zipcode"
+              type="text"
+              class="validate"
+              v-model="zipCode"
+              required
+            />
+            <div class="error-message">{{ zipCode }}</div>
+            <label for="email">郵便番号</label>
+          </div>
+          <div class="input-field col s12">
+            <input
+              id="address"
+              type="text"
+              class="validate"
+              v-model="address"
+              required
+            />
+            <div class="error-message">{{ address }}</div>
+            <label for="email">住所</label>
+          </div>
+        </div>
+        <div class="row">
           <div class="input-field col s12">
             <input
               id="email"
