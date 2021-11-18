@@ -36,8 +36,14 @@
               v-model="zipCode"
               required
             />
-            <div class="error-message">{{ zipCode }}</div>
+
+            <div class="error-message">{{ zipCodeError }}</div>
             <label for="email">郵便番号</label>
+            <span
+              ><button type="button" v-on:click="addressFromZipcoda(zipCode)">
+                住所自動入力
+              </button></span
+            >
           </div>
           <div class="input-field col s12">
             <input
@@ -47,7 +53,7 @@
               v-model="address"
               required
             />
-            <div class="error-message">{{ address }}</div>
+            <div class="error-message">{{ addressError }}</div>
             <label for="email">住所</label>
           </div>
         </div>
@@ -113,6 +119,8 @@
 import { Component, Vue } from "vue-property-decorator";
 import config from "@/const/const";
 import axios from "axios";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const axiosJsonpAdapter = require("axios-jsonp");
 
 /**
  * 管理者登録をする画面.
@@ -123,6 +131,10 @@ export default class RegisterAdmin extends Vue {
   private lastName = "";
   // 名
   private firstName = "";
+  // 郵便番号
+  private zipCode = "";
+  // 住所
+  private address = "";
   // メールアドレス
   private mailAddress = "";
   // パスワード
@@ -202,6 +214,19 @@ export default class RegisterAdmin extends Vue {
     } else {
       this.registerError = "登録できませんでした";
       this.mailAddressError = "このメールアドレスは既に登録されています";
+    }
+  }
+
+  async addressFromZipcoda(searchzipCode: number) {
+    const response = await axios.get("https://zipcoda.net/api", {
+      adapter: axiosJsonpAdapter,
+      params: {
+        zipcode: searchzipCode,
+      },
+    });
+    console.dir(JSON.stringify(response));
+    for (let responseAddress of response.data.items[0].components) {
+      this.address += responseAddress;
     }
   }
 }
