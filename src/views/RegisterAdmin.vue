@@ -215,6 +215,7 @@ export default class RegisterAdmin extends Vue {
     // 管理者登録処理
     const response = await axios.post(`${config.EMP_WEBAPI_URL}/insert`, {
       name: this.lastName + " " + this.firstName,
+      address: this.address,
       mailAddress: this.mailAddress,
       password: this.password,
     });
