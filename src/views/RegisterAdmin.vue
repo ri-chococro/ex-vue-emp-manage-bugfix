@@ -3,6 +3,7 @@
     <div class="row register-page">
       <form class="col s12" id="reg-form">
         <div class="row">
+          <div class="error-message">{{ registerError }}</div>
           <div class="input-field col s6">
             <input
               id="last_name"
@@ -54,6 +55,20 @@
           </div>
         </div>
         <div class="row">
+          <div class="input-field col s12">
+            <input
+              id="confirmation-password"
+              type="password"
+              class="validate"
+              minlength="8"
+              v-model="confirmationPassword"
+              required
+            />
+            <div class="error-message">{{ confirmationPasswordError }}</div>
+            <label for="confirmation-password">確認用パスワード</label>
+          </div>
+        </div>
+        <div class="row">
           <div class="input-field col s6">
             <button
               class="btn btn-large btn-register waves-effect waves-light"
@@ -88,6 +103,8 @@ export default class RegisterAdmin extends Vue {
   private mailAddress = "";
   // パスワード
   private password = "";
+  // 確認用パスワード
+  private confirmationPassword = "";
   // 姓エラーメッセージ
   private lastNameError = "";
   // 名エラーメッセージ
@@ -96,14 +113,19 @@ export default class RegisterAdmin extends Vue {
   private mailAddressError = "";
   // パスワードエラーメッセージ
   private passwordError = "";
+  // 確認用パスワードエラーメッセージ
+  private confirmationPasswordError = "";
   // エラー有無のフラグ
   private hasError = false;
+  // 登録失敗時のエラーメッセージ
+  private registerError = "";
 
   /**
    * 管理者情報を登録する.
    *
    * @remarks
    * 本メソッドは非同期でWebAPIを呼び出し管理者登録をするためasync/await axiosを利用しています。これらを利用する場合は明示的に戻り値にPromiseオブジェクト型を指定する必要があります。
+   *
    *
    * @returns Promiseオブジェクト
    */
@@ -112,7 +134,10 @@ export default class RegisterAdmin extends Vue {
     this.firstNameError = "";
     this.mailAddressError = "";
     this.passwordError = "";
+    this.confirmationPasswordError = "";
     this.hasError = false;
+    this.registerError = "";
+
     if (this.lastName === "") {
       this.lastNameError = "姓を入力してください";
       this.hasError = true;
@@ -129,6 +154,13 @@ export default class RegisterAdmin extends Vue {
       this.passwordError = "パスワードを入力してください";
       this.hasError = true;
     }
+    if (this.confirmationPassword === "") {
+      this.confirmationPasswordError = "確認用パスワードを入力してください";
+      this.hasError = true;
+    } else if (this.confirmationPassword !== this.password) {
+      this.confirmationPasswordError = "パスワードが一致しません";
+      this.hasError = true;
+    }
 
     if (this.hasError) {
       return;
@@ -141,8 +173,12 @@ export default class RegisterAdmin extends Vue {
       password: this.password,
     });
     console.dir("response:" + JSON.stringify(response));
-
-    this.$router.push("/loginAdmin");
+    if (response.data.status === "success") {
+      this.$router.push("/loginAdmin");
+    } else {
+      this.registerError = "登録できませんでした";
+      this.mailAddressError = "このメールアドレスは既に登録されています";
+    }
   }
 }
 </script>

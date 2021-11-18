@@ -19,7 +19,7 @@
             <tr>
               <th nowrap>従業員名</th>
               <td>
-                <span>currentEmployee.name"></span>
+                <span>{{ currentEmployee.name }}</span>
               </td>
             </tr>
             <tr>
@@ -36,7 +36,9 @@
             </tr>
             <tr>
               <th nowrap>入社日</th>
-              <td><span v-html="currentEmployee.formatDate"></span></td>
+              <td>
+                <span>{{ currentEmployee.formatDate }}</span>
+              </td>
             </tr>
             <tr>
               <th nowrap>メールアドレス</th>
@@ -65,7 +67,7 @@
             <tr>
               <th nowrap>給料</th>
               <td>
-                <span>{{ currentEmployee.salary }}</span
+                <span>{{ currentEmployee.salaryFormat }}</span
                 >円
               </td>
             </tr>
