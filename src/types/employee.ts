@@ -35,7 +35,7 @@ export class Employee {
   get salaryFormat() {
     return this.salary.toLocaleString();
   }
-  
+
   /**
    * 入社日をフォーマットして返す.
    *

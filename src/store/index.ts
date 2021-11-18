@@ -70,13 +70,7 @@ export default new Vuex.Store({
           )
         );
       }
-    },
-    /**
-     * stateに格納された従業員一覧情報を入社日順に並び替える.
-     *
-     * @param state - state内の値を利用するための引数
-     */
-    employeesOrderByHireDate(state) {
+      // stateに格納された従業員一覧情報を入社日順に並び替える
       state.employees.sort(function(a, b) {
         if (a.hireDate > b.hireDate) {
           return -1;

@@ -8,6 +8,11 @@
         </div>
       </div>
     </nav>
+    <div>従業員検索<input type="text" v-model="searchName" /></div>
+    <button type="button" v-on:click="searchEmployeeList(searchName)">
+      検索
+    </button>
+    <div>{{ noresultMessage }}</div>
     <div>従業員数:{{ getEmployeeCount }}人</div>
     <div class="row">
       <table class="striped">
@@ -47,6 +52,10 @@ export default class EmployeeList extends Vue {
   private currentEmployeeList: Array<Employee> = [];
   // 従業員数
   private employeeCount = 0;
+  // 検索したい従業員の名前
+  private searchName = "";
+  // 検索結果が0の時のメッセージ
+  private noresultMessage = "";
 
   /**
    * Vuexストアのアクション経由で非同期でWebAPIから従業員一覧を取得する.
@@ -65,8 +74,6 @@ export default class EmployeeList extends Vue {
     // 非同期で外部APIから取得しているので、async/await使わないとGetterで取得できない
     // ページング機能実装のため最初の10件に絞り込み
 
-    // Vuexストア内のミューテーションで入社日降順に並び替え
-    this.$store.commit("employeesOrderByHireDate");
     // 並び替え後の従業員一覧情報を取得
     this.currentEmployeeList = this.$store.getters.getAllEmployees;
   }
@@ -77,6 +84,21 @@ export default class EmployeeList extends Vue {
    */
   get getEmployeeCount(): number {
     return this.currentEmployeeList.length;
+  }
+  /**
+   * 検索フォームに入力された名前で従業員一覧の曖昧検索を行う.
+   *
+   * @param name - 検索フォームに入力された値
+   */
+  searchEmployeeList(name: string) {
+    this.noresultMessage = "";
+    this.currentEmployeeList = this.$store.getters.getSearchEmployeeByName(
+      name
+    );
+    if (this.currentEmployeeList.length == 0) {
+      this.currentEmployeeList = this.$store.getters.getAllEmployees;
+      this.noresultMessage = "１件もありませんでしたので全件表示します";
+    }
   }
 }
 </script>
