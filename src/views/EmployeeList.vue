@@ -74,8 +74,6 @@ export default class EmployeeList extends Vue {
     // 非同期で外部APIから取得しているので、async/await使わないとGetterで取得できない
     // ページング機能実装のため最初の10件に絞り込み
 
-    // Vuexストア内のミューテーションで入社日降順に並び替え
-    this.$store.commit("employeesOrderByHireDate");
     // 並び替え後の従業員一覧情報を取得
     this.currentEmployeeList = this.$store.getters.getAllEmployees;
   }
