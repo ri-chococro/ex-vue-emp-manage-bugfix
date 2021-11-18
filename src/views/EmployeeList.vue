@@ -85,7 +85,11 @@ export default class EmployeeList extends Vue {
   get getEmployeeCount(): number {
     return this.currentEmployeeList.length;
   }
-
+  /**
+   * 検索フォームに入力された名前で従業員一覧の曖昧検索を行う.
+   *
+   * @param name - 検索フォームに入力された値
+   */
   searchEmployeeList(name: string) {
     this.noresultMessage = "";
     this.currentEmployeeList = this.$store.getters.getSearchEmployeeByName(
