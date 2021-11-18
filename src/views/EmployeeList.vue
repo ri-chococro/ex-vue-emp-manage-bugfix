@@ -8,8 +8,11 @@
         </div>
       </div>
     </nav>
-    <div>従業員検索：<input type="text" name="" id="" /></div>
-    <button type="button">検索</button>
+    <div>従業員検索<input type="text" v-model="searchName" /></div>
+    <button type="button" v-on:click="searchEmployeeList(searchName)">
+      検索
+    </button>
+    <div>{{ noresultMessage }}</div>
     <div>従業員数:{{ getEmployeeCount }}人</div>
     <div class="row">
       <table class="striped">
@@ -49,6 +52,10 @@ export default class EmployeeList extends Vue {
   private currentEmployeeList: Array<Employee> = [];
   // 従業員数
   private employeeCount = 0;
+  // 検索したい従業員の名前
+  private searchName = "";
+  // 検索結果が0の時のメッセージ
+  private noresultMessage = "";
 
   /**
    * Vuexストアのアクション経由で非同期でWebAPIから従業員一覧を取得する.
@@ -79,6 +86,17 @@ export default class EmployeeList extends Vue {
    */
   get getEmployeeCount(): number {
     return this.currentEmployeeList.length;
+  }
+
+  searchEmployeeList(name: string) {
+    this.noresultMessage = "";
+    this.currentEmployeeList = this.$store.getters.getSearchEmployeeByName(
+      name
+    );
+    if (this.currentEmployeeList.length == 0) {
+      this.currentEmployeeList = this.$store.getters.getAllEmployees;
+      this.noresultMessage = "１件もありませんでしたので全件表示します";
+    }
   }
 }
 </script>
